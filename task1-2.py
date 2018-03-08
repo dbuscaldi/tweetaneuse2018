@@ -14,7 +14,11 @@ import pdb
 
 import re
 
+parser = argparse.ArgumentParser()
 parser.add_argument("--task2", dest="task2", action="store_true")
+parser.add_argument("--iter", type=int, default=10, help="Number of iterations.")
+
+args = parser.parse_args()
 
 # format of files: each line is "ID"\t"string"
 # "791363815107465216"	"20h51 : +20min (malaise voyageur avec prise en charge de la personne à Trilport) #ligneP"
@@ -77,7 +81,7 @@ b_m_p = model.add_parameters(EMBED_SIZE)
 
 #the softmax from the hidden size
 output_size = 2
-if task2:
+if args.task2:
     output_size = 4
 W_sm_p = model.add_parameters((output_size, EMBED_SIZE))         # Weights of the softmax
 b_sm_p = model.add_parameters((output_size)) # Softmax bias
@@ -98,19 +102,13 @@ def map_task2(label):
     #MIXPOSNEG
     return 3
 
-def calc_loss(sents):
+def calc_output(sents):
     dy.renew_cg()
 
     f_init, b_init = [b.initial_state() for b in LSTMS]
 
     #get input/output for T1
     xs = [x.encode() for (x,y) in sents]
-    ys = []
-    if task2:
-        ys = [map_task2(y) for (x,y) in sents]
-    else:
-        ys = [map_task1(y) for (x,y) in sents]
-
 
     src_len = [len(x) for x in xs]
     max_src_len = np.max(src_len)
@@ -136,48 +134,32 @@ def calc_loss(sents):
     #print(src_output.dim())
     h = dy.rectify(dy.affine_transform([b_m, W_m, finale]))
     #print(h.dim())
-    e = dy.pickneglogsoftmax_batch((dy.affine_transform([b_sm, W_sm, h])), ys)
+    e = dy.affine_transform([b_sm, W_sm, h])
     #print (e.dim())
     return e
 
+def calc_loss(sents):
+    o = calc_output(sents)
 
-def predict(sents):
-    dy.renew_cg()
-
-    f_init, b_init = [b.initial_state() for b in LSTMS]
-
-    #get input/output for T1
-    xs = [x.encode() for (x,y) in sents]
-    if task2:
+    #useless as ys is assigned on both branches
+    ys = []
+    if args.task2:
         ys = [map_task2(y) for (x,y) in sents]
     else:
         ys = [map_task1(y) for (x,y) in sents]
 
-    src_len = [len(x) for x in xs]
-    max_src_len = np.max(src_len)
-    num_words = 0
+    e = dy.pickneglogsoftmax_batch(o, ys)
+    #print (e.dim())
+    return e
 
-    #build the batch. Be careful!
-    src_cws = []
-    for i in range(max_src_len):
-        src_cws.append(dy.lookup_batch(LOOKUP, [x[i] for x in xs]))
+def predict(sents):
+    e = calc_output(sents)
 
-    #get the outputs of the first LSTM
-    fw = [x.output() for x in f_init.add_inputs(src_cws)]
-    bw = [x.output() for x in b_init.add_inputs(reversed(src_cws))]
+    if args.task2:
+        ys = [map_task2(y) for (x,y) in sents]
+    else:
+        ys = [map_task1(y) for (x,y) in sents]
 
-    finale  = fw[-1] + bw[-1]
-
-    W_sm = dy.parameter(W_sm_p)
-    b_sm = dy.parameter(b_sm_p)
-
-    W_m = dy.parameter(W_m_p)
-    b_m = dy.parameter(b_m_p)
-
-    #print(src_output.dim())
-    h = dy.rectify(dy.affine_transform([b_m, W_m, finale]))
-    #print(h.dim())
-    e = dy.affine_transform([b_sm, W_sm, h])
     #print (e.dim())
     n = 0
     #print (ys)
@@ -218,7 +200,7 @@ train = read_data(train_file, train_categories)
 train = list(train.values())
 
 
-if task2:
+if args.task2:
     train = [ (x,y) for (x,y) in train if y != 'INCONNU']
 
 
@@ -241,7 +223,7 @@ print (len(dev))
 dev_order = create_batches(dev, BATCH_SIZE)
 print (len(dev_order))
 
-for ITER in range(10):
+for ITER in range(args.iter):
     num_sentence = 0
     train_loss = 0.0
     start_time = time.time()
