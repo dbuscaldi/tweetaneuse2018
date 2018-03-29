@@ -46,6 +46,7 @@ def get_scores(ref, pred):
   print classes_names
   d_classes = init_data_struct(classes_names)
   missing = []
+  print len(pred), " predictions pour", len(ref), "references"
   for ID, classe in ref.iteritems():
     if ID not in pred:
       missing.append(ID)
