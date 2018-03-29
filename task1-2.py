@@ -27,6 +27,10 @@ parser.add_argument("--dropout-rate", type=float, default=0.5, help="dropout rat
 
 args = parser.parse_args()
 
+# parser.add_argument("--build-dev", action="store_true", "remove random 10% of train to build a dev")
+# parser.add_argument("--test-file", type=str, help="test file name")
+
+
 # format of files: each line is "ID"\t"string"
 # "791363815107465216"	"20h51 : +20min (malaise voyageur avec prise en charge de la personne à Trilport) #ligneP"
 train_file = "data/id_tweets"
@@ -195,6 +199,8 @@ def main():
 
     for ITER in range(args.iter):
         train_iter(net, ITER, train, train_order, dev, dev_order)
+        str_info = str(args.char_emb_size) + '_' + str(args.word_emb_size) + '_' + str(args.word_hidden_size)
+        model.save("task"+("2_" if args.task2 else "1_") + str_info + '_'+ str(ITER) + ".model")
 
 if __name__ == '__main__':
     main()
