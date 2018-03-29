@@ -222,17 +222,24 @@ def main_test():
 
     test = list(all_data.id_to_text_cat_map.values())
 
-    net = deft_t12_nn(model, all_data)
-    model.populate(args.test_model)
-
-
     with open('word_to_idx.txt') as data_file:
         all_data.word_to_idx = json.load(data_file)
 
-    for sent in test:
-        print(sent)
+    net = deft_t12_nn(model, all_data)
+    model.populate(args.test_model)
 
+    for data in all_data.id_to_text_cat_map:
+        sent = all_data.id_to_text_cat_map[data]
+        print('#', sent[0])
+        e = net.calc_output([sent], False)
+        b = dy.pick_batch_elem(e,0)
+        v = b.vec_value()
+        r = v.index(max(v))
+        print('"%s"\t"%s"' % (data, all_data.reverse_map_cat(r)))
 
+        # for i in range(len(t)):
+        #     if t[i] == 1:
+        #         print
 
 if __name__ == '__main__':
     if args.test_model:
