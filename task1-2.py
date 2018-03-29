@@ -12,6 +12,9 @@ import argparse
 import dynet as dy
 import pdb
 
+import json
+
+
 import deft_data
 from networks import Hybrid_BiLSTM, MultiLayerPerceptron
 
@@ -25,16 +28,20 @@ parser.add_argument("--word-hidden-size", type=int, default=128, help="size of b
 parser.add_argument("--batch-size", type=int, default=16, help="size of batches.")
 parser.add_argument("--dropout-rate", type=float, default=0.5, help="dropout rate during training")
 
+parser.add_argument("--build-dev", dest="build_dev", action="store_true", help="remove random 10% of train to build a dev")
+
+
+parser.add_argument("--test-file", type=str, help="test file name")
+parser.add_argument("--test-model", type=str, help="test model name")
+
 args = parser.parse_args()
 
-# parser.add_argument("--build-dev", action="store_true", "remove random 10% of train to build a dev")
-# parser.add_argument("--test-file", type=str, help="test file name")
 
 
 # format of files: each line is "ID"\t"string"
 # "791363815107465216"	"20h51 : +20min (malaise voyageur avec prise en charge de la personne à Trilport) #ligneP"
 train_file = "data/id_tweets"
-train_categories = "data/cat_tweets"
+train_categories = "data/T2_cat_tweets" if args.task2 else "data/T1_cat_tweets"
 
 
 # DyNet Starts
@@ -138,39 +145,36 @@ def train_iter(mynet, K, train, train_order, dev, dev_order):
     end_time = time.time()
     print("iter %r: train loss/sent=%.4f, time=%.2fs" % (K, train_loss/num_sentence, end_time-start_time))
 
-    start_time = time.time()
-    n = 0
-    num_sentence = 0
+    if args.build_dev:
+        start_time = time.time()
+        n = 0
+        num_sentence = 0
 
-    if args.task2:
-        res   = [0,0,0,0]
-        total = [0,0,0,0]
-    else:
-        res   = [0,0]
-        total = [0,0]
+        if args.task2:
+            res   = [0,0,0,0]
+            total = [0,0,0,0]
+        else:
+            res   = [0,0]
+            total = [0,0]
 
-    for sent_id, (start, length) in enumerate(dev_order):
-        #print (sent_id,length)
-        dev_batch = dev[start:start+length]
-        o,t = mynet.predict(dev_batch)
-        n += sum(o)
+        for sent_id, (start, length) in enumerate(dev_order):
+            #print (sent_id,length)
+            dev_batch = dev[start:start+length]
+            o,t = mynet.predict(dev_batch)
+            n += sum(o)
+            for i in range(len(res)):
+                res[i] += o[i]
+                total[i] += t[i]
+            num_sentence += length
+            if (sent_id+1) % 100 == 0:
+                print("--finished %r sentences" % (sent_id+1))
+        end_time = time.time()
+        print("iter %r: dev acc =%.4f, time=%.2fs" % (K, float(n)/float(num_sentence), end_time-start_time))
         for i in range(len(res)):
-            res[i] += o[i]
-            total[i] += t[i]
-        num_sentence += length
-        if (sent_id+1) % 100 == 0:
-            print("--finished %r sentences" % (sent_id+1))
-    end_time = time.time()
-    print("iter %r: dev acc =%.4f, time=%.2fs" % (K, float(n)/float(num_sentence), end_time-start_time))
-    for i in range(len(res)):
-        print("cat: %r : dev acc =%.4f, (%r/%r)" % (i, float(res[i])/float(total[i]), res[i], total[i]))
+            print("cat: %r : dev acc =%.4f, (%r/%r)" % (i, float(res[i])/float(total[i]), res[i], total[i]))
 
 
-
-
-
-
-def main():
+def main_train():
     if args.task2:
         all_data = deft_data.task2(train_file, train_categories, 10)
     else:
@@ -180,27 +184,58 @@ def main():
 
     random.shuffle(train)
     l = len(train)
-    dev = train[int(0.9 *l):]
+    dev = train[int(0.9 *l):] if args.build_dev else None
     train = train[:int(0.9*l)]
 
 
     train.sort(key=lambda t: len(t[0].split()), reverse=True)
-    dev.sort(key=lambda t: len(t[0].split()), reverse=True)
+    if args.build_dev:
+        dev.sort(key=lambda t: len(t[0].split()), reverse=True)
 
     print (len(train))
     train_order = create_batches(train, args.batch_size)
     print (len(train_order))
 
-    print (len(dev))
-    dev_order = create_batches(dev, args.batch_size)
-    print (len(dev_order))
+    dev_order = None
+    if args.build_dev:
+        print (len(dev))
+        dev_order = create_batches(dev, args.batch_size)
+        print (len(dev_order))
 
     net = deft_t12_nn(model, all_data)
+
+    with open('word_to_idx.txt', 'w') as outfile:
+        json.dump(all_data.word_to_idx, outfile, sort_keys=True, indent=4)
 
     for ITER in range(args.iter):
         train_iter(net, ITER, train, train_order, dev, dev_order)
         str_info = str(args.char_emb_size) + '_' + str(args.word_emb_size) + '_' + str(args.word_hidden_size)
         model.save("task"+("2_" if args.task2 else "1_") + str_info + '_'+ str(ITER) + ".model")
 
+
+
+def main_test():
+    if args.task2:
+        all_data = deft_data.task2( args.test_file , None, 0)
+    else:
+        all_data = deft_data.task1( args.test_file, None, 0)
+
+    test = list(all_data.id_to_text_cat_map.values())
+
+    net = deft_t12_nn(model, all_data)
+    model.populate(args.test_model)
+
+
+    with open('word_to_idx.txt') as data_file:
+        all_data.word_to_idx = json.load(data_file)
+
+    for sent in test:
+        print(sent)
+
+
+
 if __name__ == '__main__':
-    main()
+    if args.test_model:
+        main_test()
+    else:
+        main_train()
