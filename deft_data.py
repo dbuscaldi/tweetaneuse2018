@@ -6,8 +6,11 @@ class deft_data:
         self.id_to_text_cat_map = {}
         self.word_to_idx = {}
         self.unk_threshold = unk_threshold
+        self.clean = False
 
         self.read_data(filename_id_txt, filename_id_cat, self.unk_threshold)
+
+
 
 
     def has_word(self, word):
@@ -21,9 +24,13 @@ class deft_data:
             for line in f_src:
                 m = p.match(line)
                 if m:
-                    self.id_to_text_cat_map[m.group(1)] = m.group(2)
+                    # TODO: postprocess txt (ie, line carrier)
+                    if self.clean:
+                        self.id_to_text_cat_map[m.group(1)] = m.group(2).replace("[ASCII012CTRLC]", " ")
+                    else:
+                        self.id_to_text_cat_map[m.group(1)] = m.group(2)
 
-        # TODO: postprocess txt (ie, line carrier)
+
 
         p =  re.compile('^(.*)\|(.*)$')
         with open(categories, "r") as f_cat:

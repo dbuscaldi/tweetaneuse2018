@@ -13,7 +13,7 @@ import dynet as dy
 import pdb
 
 import deft_data
-from networks import Hybrid_BiLSTM, mlp
+from networks import Hybrid_BiLSTM, MultiLayerPerceptron
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--task2", dest="task2", action="store_true")
@@ -40,7 +40,7 @@ trainer = dy.AmsgradTrainer(model)
 class deft_t12_nn:
     def __init__(self, model, data):
         self.hbilstm = Hybrid_BiLSTM(model, data, args.char_emb_size, args.word_emb_size, args.word_hidden_size, 1, 1, args.dropout_rate)
-        self.classif = mlp(model, [args.word_hidden_size,args.word_emb_size, data.output_size], dy.rectify, args.dropout_rate)
+        self.classif = MultiLayerPerceptron(model, [args.word_hidden_size,args.word_emb_size, data.output_size], dy.rectify, args.dropout_rate)
         self.data = data
 
     def calc_output(self, sents, train_mode):
