@@ -37,12 +37,13 @@ def compute_results(dic):
     acc_data[0]+=VP
     acc_data[1]+=FP+VP
     all_F.append(F1)
-    print "  "+classe[:7]+"\t"+"\t".join([str(round(x,2)) for x in [R, P, F1]])
+    print "  '%s'"%classe[:10]+"\t"+"\t".join([str(round(x,2)) for x in [R, P, F1]])
   print "  Accuracy:", round(acc_data[0]/acc_data[1], 2)
   print "  Micro F1:", round(moyenne(all_F), 2)
 
 def get_scores(ref, pred):
   classes_names = set(ref.values())
+  print classes_names
   d_classes = init_data_struct(classes_names)
   missing = []
   for ID, classe in ref.iteritems():
@@ -68,5 +69,7 @@ liste_results = glob.glob(sys.argv[2]+"*")
 ref = parse_file(sys.argv[1])
 
 for result_file in liste_results:
+  print "\n Processing %s"%result_file
   pred = parse_file(result_file)
   scores = get_scores(ref, pred)
+  print ""
