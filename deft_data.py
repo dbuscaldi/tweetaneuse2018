@@ -26,27 +26,29 @@ class deft_data:
                 if m:
                     # TODO: postprocess txt (ie, line carrier)
                     if self.clean:
-                        self.id_to_text_cat_map[m.group(1)] = m.group(2).replace("[ASCII012CTRLC]", " ")
+                        self.id_to_text_cat_map[m.group(1)] = (m.group(2).replace("[ASCII012CTRLC]", " "), 'INCONNU')
                     else:
-                        self.id_to_text_cat_map[m.group(1)] = m.group(2)
+                        self.id_to_text_cat_map[m.group(1)] = (m.group(2),'INCONNU')
 
 
 
-        p =  re.compile('^(.*)\|(.*)$')
-        with open(categories, "r") as f_cat:
-            for line in f_cat:
-                m = p.match(line)
-                if m:
-                    self.id_to_text_cat_map[m.group(1)] = (self.id_to_text_cat_map[m.group(1)], m.group(2))
-
+        if categories != None:
+            p =  re.compile('^(.*)\|(.*)$')
+            with open(categories, "r") as f_cat:
+                for line in f_cat:
+                    m = p.match(line)
+                    if m:
+                        self.id_to_text_cat_map[m.group(1)] = (self.id_to_text_cat_map[m.group(1)][0], m.group(2))
+                        #print (self.id_to_text_cat_map[m.group(1)])
         for k in self.id_to_text_cat_map:
-            s,_ = self.id_to_text_cat_map[k]
-            l = s.split()
-            for w in l:
-                if w in self.word_to_idx:
-                    self.word_to_idx[w] = self.word_to_idx[w] +1
-                else:
-                    self.word_to_idx[w] = 1
+            s,cat = self.id_to_text_cat_map[k]
+            if cat != None:
+                l = s.split()
+                for w in l:
+                    if w in self.word_to_idx:
+                        self.word_to_idx[w] = self.word_to_idx[w] +1
+                    else:
+                        self.word_to_idx[w] = 1
 
         llex = [k for k in self.word_to_idx if self.word_to_idx[k] >= self.unk_threshold]
         self.word_to_idx = {}
