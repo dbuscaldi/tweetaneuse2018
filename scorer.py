@@ -39,7 +39,7 @@ def compute_results(dic):
     all_F.append(F1)
     print "  '%s'"%classe[:10]+"\t"+"\t".join([str(round(x,2)) for x in [R, P, F1]])
   print "  Accuracy:", round(acc_data[0]/acc_data[1], 2)
-  print "  Micro F1:", round(moyenne(all_F), 2)
+  print "  Macro F1:", round(moyenne(all_F), 2)
 
 def get_scores(ref, pred):
   classes_names = set(ref.values())
