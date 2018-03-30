@@ -24,11 +24,13 @@ def init_data_struct(classes_names):
 def compute_results(dic):
   all_F = []
   acc_data = [0, 0]
+  out =""
   print "  CLASSE\tR\tP\tF1"
   for classe, scores in dic .iteritems():
     VP = float(scores["VP"])
     FP = scores["FP"]
     FN = scores["FN"]
+    out+= classe+ str(scores)
     if VP==0:R=P=F1=0
     else:
       R = VP/(VP+FN)
@@ -40,6 +42,7 @@ def compute_results(dic):
     print "  '%s'"%classe[:10]+"\t"+"\t".join([str(round(x,2)) for x in [R, P, F1]])
   print "  Accuracy:", round(acc_data[0]/acc_data[1], 2)
   print "  Macro F1:", round(moyenne(all_F), 2)
+  print out
 
 def get_scores(ref, pred):
   classes_names = set(ref.values())
