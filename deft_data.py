@@ -94,7 +94,7 @@ class task2(deft_data):
         dict = {}
         for k in self.id_to_text_cat_map:
             s,cat = self.id_to_text_cat_map[k]
-            if cat != 'INCONNU':
+            if unk_threshold == 0 or cat != 'INCONNU':
                 dict[k] = (s,cat)
         self.id_to_text_cat_map = dict
 
