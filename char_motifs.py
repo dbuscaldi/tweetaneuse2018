@@ -93,8 +93,6 @@ class DataBase():
 
   def getTextsList(self, folder, task, test=False):
     a = 0
-#    if test==False:
-#      a = 60000
     b = 100000
     texts_ids = {}
     txts_list, cls_list, IDs_list = [], [], []
