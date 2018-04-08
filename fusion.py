@@ -53,4 +53,5 @@ for source in sys.argv[1:]:
 
 res = election(d)
 
+res = ["%s|%s"%(x,y) for x,y in res.iteritems()]
 write_utf8("results_vote", "\n".join(res))
