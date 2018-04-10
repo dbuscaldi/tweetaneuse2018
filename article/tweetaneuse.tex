@@ -1,0 +1,65 @@
+%% Exemple de source LaTeX pour un article soumis à TALN 2017
+\documentclass[10pt,twoside]{article}
+
+\usepackage{times}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+% faire les \usepackage dont vous avez besoin AVANT le \usepackage{jeptaln2016} 
+
+\usepackage{taln2017}
+\usepackage[frenchb]{babel}
+
+% Titre complet
+\title{Tweetaneuse}
+
+\author{Untel Trucmuche\up{1, 2}\quad Unetelle Machinchose\up{1, 3}\\
+  {\small
+    (1) Lab, adresse, CP Ville, Pays \\ 
+    (2) Lab, adresse, CP Ville, Pays \\ 
+    (3) Lab, adresse, CP Ville, Pays \\ 
+    \texttt{
+      utrucmuche@lab.fr, umachinchose@adresse-academique.fr \\ 
+}}}
+
+\begin{document}
+\maketitle
+
+\resume{
+\input{parts/00_resume}
+}
+
+\abstract{Here the title in English.}{
+\input{parts/00_abstract}
+}
+
+\motsClefs
+  {Ici une liste de mots-clés en français}
+  {Here a list of keywords in English}
+
+
+\section{Introduction}
+
+\input{parts/01_intro}
+\section{Corpus}
+\input{parts/02_corpus}
+
+\section{Méthodes}
+\input{parts/03_methodes}
+
+\section{Résultats}
+\input{parts/04_resultats}
+
+\section{Discussion}
+\input{parts/05_conclusion}
+
+
+
+\bibliographystyle{taln2017}
+\bibliography{biblio}
+%% commande no-cite pour inclure dans la bibliographie des références 
+%% qui ne sont pas citées dans le corps de l'article
+
+%%================================================================
+\end{document}
