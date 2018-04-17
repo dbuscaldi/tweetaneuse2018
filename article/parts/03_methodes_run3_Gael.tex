@@ -1,1 +1,32 @@
- Notre troisième run
+ Notre troisième système utilise également une approche d'analyse au grain caractère. Plus exactement cette approche se situe à la lisière en l'algorithmique du texte et la fouille de données.
+ Nous utilisons des motifs (en caractères) fermés et fréquents comme traits pour entraîner un classifieur.
+
+ Les propriétés de fermeture et de fréquence sont définis de la façon suivante :%\footnote{Il s'agit d'une transposition de \textit{frequency}, il s'agit donc d'effectif}
+\begin{description}
+\item[Fermeture]: le motif ne peut être étendu vers la gauche ou vers la droite sans diminuer son nombre d'occurences
+\item[Fréquence]: le motif respecte une borne minimale de nombre d'apparitions ou support minimal
+\end{description}
+
+ Pour calculer des motifs en caractères de manière efficace, en l'occurrence avec une complexité linéaire en la taille des données, nous utilisons ici une implantation en Python de l'algorithme de Ukkonen (REF) exploitant les tableaux de suffixes augmentés décrits par Kärkkainen (REF).
+ \textbf{REF DEFT 2017} rappelent que les propriétés de fermeture et de fréquence correspondent en algorithmique du texte aux propriétés de maximalité et de répétition.
+ Cette technique amène à une tokenization que nous qualifierons de "non-supervisée" en ce sens que les règles de découpage ne sont pas pré-définies mais sont calculées en fonction du corpus donné en entrée.%  Les motifs d'effectif 1 ne sont pas exploités
+ 
+ De façon traditionnelle en fouille de données, un défi important est de limiter l'explosion du nombre de motifs, que ce soit pour des raisons calculatoires ou pour des raisons de lisibilité des résultats. En effet, nous pouvons voir dans le tableau (XXX) que le nombre de motifs peut être très important.
+ Un filtrage classique consiste à appliquer aux motifs deux types de contraintes:
+\begin{itemize}
+  \item La contrainte de support (qui vient en quelque sorte affiner la propriété de fréquence) par laquelle on définit le nombre minimal ($minsup$) et maximal ($maxsup$) d'objets qui supportent un motif. Ici cela consiste à définir le nombre minimal et maximal de tweets dans lequel le motif apparaît.
+  \item La contrainte de longueur par laquelle on définit la longueur minimale ($minlen$) et maximale ($maxlen$) d'un motif. Ici, il s'agit d'une longueur en caractères.
+\end{itemize}
+
+ Notre chaîne de traitement est donc définie comme suit:
+\begin{enumerate}
+  \item Calcul des motifs fermés fréquents dans tout le corpus
+  \item Filtrage selon des critères de longueur et de support
+  \item Représentation de chaque tweet sous forme d'un vecteur d'effectif
+  \item Utilisation de l'implantation dans \textsc{SciKit} du SVM \textsc{One VS Rest}
+\end{enumerate}
+
+ 
+Durant la phase d'entraînement nous testé la méthode au travers d'un validation croisée en 10 strates au moyen de la fonction StratifiedKFold de \textsc{SciKit}. En examinant les résultats, nous avons observé que la qualité des résultats n'augmentait plus au delà d'un seuil de $maxlen$ de 5.
+Nous avons également remarqué, ce qui est conforme à des résultats précédents sur des données comparables (REF DEFT 2017), que l'application des contraintes de support avait assez peu d'influence sur les résultats. Nous avons donc choisi de ne pas chercher à paramétrer finement cette contrainte; Toutefois, dans une perspective calculatoire, la réduction de l'espace de description par l'application de cete contrainte aurait du sens.
+ 
