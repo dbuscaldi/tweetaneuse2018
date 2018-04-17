@@ -67,3 +67,24 @@ def mkdirs(path):
     os.makedirs(path)
   except:
     pass
+
+def read_tweets(path):
+  lignes = open_utf8(path, True)
+  d = {}
+  for l in lignes:
+    l = re.sub('^"|"$', '', l)
+    ID, texte = re.split('"\t"', l)
+    d[ID] = texte
+  return d
+
+def read_tsv_file(path, key = 0):
+  lignes = [re.sub("\n", "",x) for x in open_utf8(path, True)]
+  d = {}
+  l_attr = re.split("\t", lignes[0])
+  for l in lignes[1:]:
+    l = re.sub('^"|"$', '', l)
+    elems = re.split("\t", l)
+    ID = elems[key]
+    d[ID] = {l_attr[i]:elems[i] for i in range(len(l_attr))}
+  return d
+
