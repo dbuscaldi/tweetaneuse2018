@@ -17,7 +17,7 @@ import json
 from scipy import sparse
 
 class DataBase():
-  def __init__(self, options, config, path_voc):
+  def __init__(self, options, config, path_voc, out_name):
     folder = o.corpus
     if not os.path.exists(path_voc) or o.test==True or o.force==True:
       print("computing vocabulary")
@@ -50,9 +50,9 @@ class DataBase():
 
     self.results = {}
     print "Classifiers : " + ", ".join([x[0] for x in classifiers])
-    self.all_predictions = []
 
     for name, clf in classifiers:
+      self.all_predictions = []
       all_predictions_clf = []
       self.results[name] = []
       print "-"*10
@@ -74,6 +74,7 @@ class DataBase():
         print(len(all_predictions_clf), "predictions")
       print(len(all_predictions_clf))
       self.all_predictions.append([name, all_predictions_clf])
+      generate_output(out_name, self.all_predictions, "|")
 
   def translate_predictions(self, test_indices):
         cl_pred=[self.class_names[x] for x in self.predictions]
@@ -90,11 +91,12 @@ class DataBase():
 
   def get_classifiers(self):
     liste_classif=[
-     ["OneVsRest-Linear", OneVsRestClassifier(LinearSVC(random_state=0))],
+#     ["OneVsRest-Linear", OneVsRestClassifier(LinearSVC(random_state=0))],
 #     ["Tree-DecisionTree",  tree.DecisionTreeClassifier()],
 #       ["Random_forest_25",  RandomForestClassifier(n_estimators=25)],
 #     ["Svm-C1-linear", svm.SVC(kernel='linear')],
-#       ["svm (C=1, poly)", svm.SVC(kernel='poly')],
+     ["svm-C-1-poly", svm.SVC(kernel='poly')],
+     ["svm-C-1-rbf", svm.SVC(kernel='rbf')],
      ]
     return liste_classif
 
@@ -198,6 +200,5 @@ if __name__ == "__main__":
     config_name = get_config_name(config)
     out_name = "%s/T%s_%s"%(path_results, o.task,  config_name)
     path_voc = "computed_voc/T%s_%s"%(o.task,  config_name)
-    dataB =DataBase(o, config, path_voc)
+    dataB =DataBase(o, config, path_voc, out_name)
     print ""
-    generate_output(out_name, dataB.all_predictions, "|")
