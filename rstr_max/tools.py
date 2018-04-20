@@ -29,6 +29,9 @@ def get_args():
   parser.add_option("-s", "--sup",
                    dest="sup", default="2,100000",
                    help="minsup,maxsup")
+  parser.add_option("-O", "--optimizeSparse",
+                   dest="optimizeSparse", action  = "store_true",default=False,
+                   help="if activated, matrixes will not be optimized")
 
 
   (options, args) = parser.parse_args()

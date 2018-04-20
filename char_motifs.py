@@ -14,6 +14,7 @@ from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestClassifier
 from tools import *
 import json
+from scipy import sparse
 
 class DataBase():
   def __init__(self, options, config, path_voc):
@@ -37,7 +38,9 @@ class DataBase():
     print "  Train set size : %s"%str(NbTrain)
     if o.test==True:
       print "  Test set size : %s"%str(len(self.textsList["texts"])-NbTrain)
-    self.X, self.traits = self.getVecteursTraitsSparse()
+    self.X, self.traits = self.getVecteursTraits()
+#    if options.optimizeSparse==True:
+#      self.X = csr_matrix(self.X)
     self.NBmotifs = len(self.traits)
     print "NB motifs : %s"%str(self.NBmotifs)
 
@@ -61,8 +64,12 @@ class DataBase():
         INDICES = [[[x for x in xrange(0, NbTrain)], [x for x in xrange(NbTrain, len(self.textsList["texts"]))]]]
       for train_indices, test_indices in INDICES:
         self.create_sets(train_indices, test_indices)
-        clf.fit(self.trainX, self.trainY)
-        self.predictions = clf.predict(self.testX)
+        if options.optimizeSparse==True:
+          clf.fit(sparse.csr_matrix(self.trainX), self.trainY)
+          self.predictions = clf.predict(sparse.csr_matrix(self.testX))
+        else:
+          clf.fit(self.trainX, self.trainY)
+          self.predictions = clf.predict(self.testX)
         all_predictions_clf += self.translate_predictions(test_indices)
         print(len(all_predictions_clf), "predictions")
       print(len(all_predictions_clf))
@@ -93,7 +100,7 @@ class DataBase():
 
   def getTextsList(self, folder, task, test=False):
     a = 0
-    b = 100000
+    b = 150000
     texts_ids = {}
     txts_list, cls_list, IDs_list = [], [], []
     if test==False:
@@ -120,21 +127,6 @@ class DataBase():
           cls_list.append(classe)
       print stats
     return {"texts":txts_list[a:b],"classes": cls_list[a:b],"IDs":IDs_list[a:b]}
-
-  def getVecteursTraitsSparse(self):
-    dico = self.motifsOccurences
-#    print dico[1]
-    listeVecteurs = []
-    traits = [dico[i][0] for i in xrange(0, len(dico))]
-    for numTexte in range(len(self.textsList["texts"])):
-      vecteurTexte = []
-      for motif in range(len(dico)):
-          if numTexte in dico[motif][1]:
-              vecteurTexte.append(dico[motif][1][numTexte])
-          else:
-              vecteurTexte.append(0)
-      listeVecteurs.append(vecteurTexte)
-    return listeVecteurs, traits
 
   def getVecteursTraits(self):
     dico = self.motifsOccurences
