@@ -7,7 +7,7 @@
 \item[Fréquence]: le motif respecte une borne minimale de nombre d'apparitions ou support minimal
 \end{description}
 
- Pour calculer des motifs en caractères de manière efficace, en l'occurrence avec une complexité linéaire en la taille des données, nous utilisons ici une implantation en Python de l'algorithme de Ukkonen \cite{Ukkonen-2006} exploitant les tableaux de suffixes augmentés décrits par Juha Kärkkainen (\cite{Karkka-2006}).
+ Pour calculer des motifs en caractères de manière efficace, en l'occurrence avec une complexité linéaire en la taille des données, nous utilisons ici une implantation en Python de l'algorithme de Ukkonen \cite{Ukkonen-2009} exploitant les tableaux de suffixes augmentés décrits par Juha Kärkkainen (\cite{Karkka-2006}).
  \cite{Buscaldi-2017} rappelent que les propriétés de fermeture et de fréquence correspondent en algorithmique du texte aux propriétés de maximalité et de répétition.
  Cette technique amène à une tokenization que nous qualifierons de "non-supervisée" en ce sens que les règles de découpage ne sont pas pré-définies mais sont calculées en fonction du corpus donné en entrée.%  Les motifs d'effectif 1 ne sont pas exploités
  
