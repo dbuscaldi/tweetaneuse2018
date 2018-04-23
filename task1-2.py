@@ -49,8 +49,10 @@ from networks import Hybrid_BiLSTM, MultiLayerPerceptron
 
 # format of files: each line is "ID"\t"string"
 # "791363815107465216"	"20h51 : +20min (malaise voyageur avec prise en charge de la personne à Trilport) #ligneP"
-train_file = "data/id_tweets"
-train_categories = "data/T2_cat_tweets" if args.task2 else "data/T1_cat_tweets"
+import os
+dirname = os.path.dirname(__file__)
+train_file = os.path.join(dirname, "data/id_tweets")
+train_categories = os.path.join(dirname, "data/T2_cat_tweets" if args.task2 else "data/T1_cat_tweets")
 
 
 
