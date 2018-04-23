@@ -27,6 +27,7 @@ parser.add_argument("--word-emb-size", type=int, default=64, help="size of word 
 parser.add_argument("--word-hidden-size", type=int, default=128, help="size of bilstm hidden layers.")
 parser.add_argument("--batch-size", type=int, default=16, help="size of batches.")
 parser.add_argument("--dropout-rate", type=float, default=0.5, help="dropout rate during training")
+parser.add_argument("--use-attention", dest="attention",action="store_true", help="use attention mechanism")
 
 parser.add_argument("--build-dev", dest="build_dev", action="store_true", help="remove random 10% of train to build a dev")
 
@@ -44,6 +45,9 @@ train_file = "data/id_tweets"
 train_categories = "data/T2_cat_tweets" if args.task2 else "data/T1_cat_tweets"
 
 
+
+
+
 # DyNet Starts
 model = dy.Model()
 trainer = dy.AmsgradTrainer(model)
@@ -53,12 +57,29 @@ class deft_t12_nn:
         self.hbilstm = Hybrid_BiLSTM(model, data, args.char_emb_size, args.word_emb_size, args.word_hidden_size, 1, 1, args.dropout_rate)
         self.classif = MultiLayerPerceptron(model, [args.word_hidden_size,args.word_emb_size, data.output_size], dy.rectify, args.dropout_rate)
         self.data = data
+        self.Qp = model.add_parameters((args.word_hidden_size, args.word_hidden_size))
+        self.Kp = model.add_parameters((args.word_hidden_size, args.word_hidden_size))
+        self.Vp = model.add_parameters((args.word_hidden_size, args.word_hidden_size))
 
     def calc_output(self, sents, train_mode):
         dy.renew_cg()
 
         fw,bw = self.hbilstm.calc_output(sents, train_mode)
         finale  = fw[-1] + bw[-1]
+
+        if args.attention:
+            Q = dy.parameter(self.Qp)
+            K = dy.parameter(self.Kp)
+            V = dy.parameter(self.Vp)
+
+            aw = [ x+y for (x,y) in zip(fw,reversed(bw))]
+            aw = aw[1:len(aw)-1] # cut SOS/EOS
+            query  = dy.transpose(Q * finale)
+            #print (query.dim())
+            att = [dy.cmult((query* (K * w) / len(aw)), (V*w)) for w in aw]
+
+            finale = dy.esum(att)
+
 
         if train_mode:
             finale = dy.dropout(finale, args.dropout_rate)
