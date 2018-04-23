@@ -225,7 +225,7 @@ def main_train():
 
     net = deft_t12_nn(model, all_data)
 
-    with open('word_to_idx.txt', 'w') as outfile:
+    with open('word_to_idx.txt', 'w', encoding="utf-8") as outfile:
         json.dump(all_data.word_to_idx, outfile, sort_keys=True, indent=4)
 
     for ITER in range(args.iter):
@@ -243,7 +243,7 @@ def main_test():
 
     test = list(all_data.id_to_text_cat_map.values())
 
-    with open('word_to_idx.txt') as data_file:
+    with open('word_to_idx.txt', encoding="utf-8") as data_file:
         all_data.word_to_idx = json.load(data_file)
 
     net = deft_t12_nn(model, all_data)

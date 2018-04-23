@@ -20,7 +20,7 @@ class deft_data:
     def read_data(self, filename, categories, unk_threshold):
         p = re.compile('^"(.*)"\t"(.*)"$')
 
-        with open(filename, "r") as f_src:
+        with open(filename, "r", encoding="utf-8") as f_src:
             for line in f_src:
                 m = p.match(line)
                 if m:
@@ -34,7 +34,7 @@ class deft_data:
 
         if categories != None:
             p =  re.compile('^(.*)\|(.*)$')
-            with open(categories, "r") as f_cat:
+            with open(categories, "r", encoding="utf-8") as f_cat:
                 for line in f_cat:
                     m = p.match(line)
                     if m:
