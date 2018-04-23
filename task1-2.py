@@ -9,14 +9,14 @@ import math
 import sys
 import argparse
 
-import dynet as dy
+
 import pdb
 
 import json
 
 
 import deft_data
-from networks import Hybrid_BiLSTM, MultiLayerPerceptron
+import dynet_config
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--task2", dest="task2", action="store_true")
@@ -35,7 +35,15 @@ parser.add_argument("--build-dev", dest="build_dev", action="store_true", help="
 parser.add_argument("--test-file", type=str, help="test file name")
 parser.add_argument("--test-model", type=str, help="test model name")
 
+parser.add_argument("--use-gpu", dest="gpu", action="store_true")
+
 args = parser.parse_args()
+
+
+if args.gpu:
+    dynet_config.set_gpu()
+import dynet as dy
+from networks import Hybrid_BiLSTM, MultiLayerPerceptron
 
 
 
