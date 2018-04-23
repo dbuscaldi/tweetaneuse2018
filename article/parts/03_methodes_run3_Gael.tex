@@ -7,11 +7,11 @@
 \item[Fréquence]: le motif respecte une borne minimale de nombre d'apparitions ou support minimal
 \end{description}
 
- Pour calculer des motifs en caractères de manière efficace, en l'occurrence avec une complexité linéaire en la taille des données, nous utilisons ici une implantation en Python de l'algorithme de Ukkonen (REF) exploitant les tableaux de suffixes augmentés décrits par Kärkkainen (REF).
- \textbf{REF DEFT 2017} rappelent que les propriétés de fermeture et de fréquence correspondent en algorithmique du texte aux propriétés de maximalité et de répétition.
+ Pour calculer des motifs en caractères de manière efficace, en l'occurrence avec une complexité linéaire en la taille des données, nous utilisons ici une implantation en Python de l'algorithme de Ukkonen \cite{Ukkonen-2009} exploitant les tableaux de suffixes augmentés décrits par Juha Kärkkainen (\cite{Karkka-2006}).
+ \cite{Buscaldi-2017} rappelent que les propriétés de fermeture et de fréquence correspondent en algorithmique du texte aux propriétés de maximalité et de répétition.
  Cette technique amène à une tokenization que nous qualifierons de "non-supervisée" en ce sens que les règles de découpage ne sont pas pré-définies mais sont calculées en fonction du corpus donné en entrée.%  Les motifs d'effectif 1 ne sont pas exploités
  
- De façon traditionnelle en fouille de données, un défi important est de limiter l'explosion du nombre de motifs, que ce soit pour des raisons calculatoires ou pour des raisons de lisibilité des résultats. En effet, nous pouvons voir dans le tableau (XXX) que le nombre de motifs peut être très important.
+ De façon traditionnelle en fouille de données, un défi important est de limiter l'explosion du nombre de motifs, que ce soit pour des raisons calculatoires ou pour des raisons de lisibilité des résultats.% En effet, nous pouvons voir dans le tableau \ref{tab:nbMotifs} que le nombre de motifs peut être très important.
  Un filtrage classique consiste à appliquer aux motifs deux types de contraintes:
 \begin{itemize}
   \item La contrainte de support (qui vient en quelque sorte affiner la propriété de fréquence) par laquelle on définit le nombre minimal ($minsup$) et maximal ($maxsup$) d'objets qui supportent un motif. Ici cela consiste à définir le nombre minimal et maximal de tweets dans lequel le motif apparaît.
@@ -28,5 +28,5 @@
 
  
 Durant la phase d'entraînement nous testé la méthode au travers d'un validation croisée en 10 strates au moyen de la fonction StratifiedKFold de \textsc{SciKit}. En examinant les résultats, nous avons observé que la qualité des résultats n'augmentait plus au delà d'un seuil de $maxlen$ de 5.
-Nous avons également remarqué, ce qui est conforme à des résultats précédents sur des données comparables (REF DEFT 2017), que l'application des contraintes de support avait assez peu d'influence sur les résultats. Nous avons donc choisi de ne pas chercher à paramétrer finement cette contrainte; Toutefois, dans une perspective calculatoire, la réduction de l'espace de description par l'application de cete contrainte aurait du sens.
+Nous avons également remarqué, ce qui est conforme à des résultats précédents sur des données comparables (\cite{Buscaldi-2017}), que l'application de contraintes de support avait assez peu d'influence sur les résultats. Nous avons donc choisi de ne pas chercher à paramétrer finement cette contrainte. Toutefois, dans une perspective calculatoire, la réduction de l'espace de description engendrée par cette contrainte aurait du sens.
  
