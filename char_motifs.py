@@ -8,10 +8,11 @@ from sklearn import svm
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
-from sklearn import tree
+#from sklearn import tree
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import KFold
-from sklearn.ensemble import RandomForestClassifier
+#from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from tools import *
 import json
 from scipy import sparse
@@ -92,11 +93,12 @@ class DataBase():
   def get_classifiers(self):
     liste_classif=[
 #     ["OneVsRest-Linear", OneVsRestClassifier(LinearSVC(random_state=0))],
+     ["OneVsRest-Poly", OneVsRestClassifier(SVC(kernel="poly"))],
 #     ["Tree-DecisionTree",  tree.DecisionTreeClassifier()],
 #       ["Random_forest_25",  RandomForestClassifier(n_estimators=25)],
 #     ["Svm-C1-linear", svm.SVC(kernel='linear')],
-     ["svm-C-1-poly", svm.SVC(kernel='poly')],
-     ["svm-C-1-rbf", svm.SVC(kernel='rbf')],
+#     ["svm-C-1-poly", svm.SVC(kernel='poly')],
+#     ["svm-C-1-rbf", svm.SVC(kernel='rbf')],
      ]
     return liste_classif
 
