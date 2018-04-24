@@ -94,6 +94,7 @@ class DataBase():
     liste_classif=[
 #     ["OneVsRest-Linear", OneVsRestClassifier(LinearSVC(random_state=0))],
      ["OneVsRest-Poly", OneVsRestClassifier(SVC(kernel="poly"))],
+     ["OneVsRest-Rbf", OneVsRestClassifier(SVC(kernel="rbf"))],
 #     ["Tree-DecisionTree",  tree.DecisionTreeClassifier()],
 #       ["Random_forest_25",  RandomForestClassifier(n_estimators=25)],
 #     ["Svm-C1-linear", svm.SVC(kernel='linear')],
