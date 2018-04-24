@@ -1,9 +1,16 @@
 import numpy as np
 import dynet as dy
 
+from enum import Enum
+
+class Level(Enum):
+    WORD = 1
+    CHAR = 2
+    HYBRID = 3
+
 
 class Hybrid_BiLSTM:
-    def __init__(self, model, data, char_emb_size, word_emb_size, output_emb_size, char_layers, word_layers, dropout_rate):
+    def __init__(self, model, data, char_emb_size, word_emb_size, output_emb_size, char_layers, word_layers, dropout_rate, level):
         self.char_emb_size = char_emb_size
         self.word_emb_size = word_emb_size
         self.output_emb_size = output_emb_size
@@ -11,6 +18,7 @@ class Hybrid_BiLSTM:
         self.word_layers = word_layers
         self.dropout_rate = dropout_rate
         self.word_to_idx = data.word_to_idx
+        self.level = level
 
         # Lookup parameters for byte and word embeddings
         self.char_lookup = model.add_lookup_parameters((255, self.char_emb_size))
@@ -45,7 +53,12 @@ class Hybrid_BiLSTM:
                     wid = 0
                     if w in self.word_to_idx:
                         wid = self.word_to_idx[w]
-                    cache[w] = dy.lookup(self.word_lookup,wid) + fw[-1] + bw[-1]
+                    if self.level == Level.HYBRID:
+                        cache[w] = dy.lookup(self.word_lookup,wid) + fw[-1] + bw[-1]
+                    if self.level == Level.CHAR:
+                        cache[w] = fw[-1] + bw[-1]
+                    if self.level == Level.WORD:
+                        cache[w] = dy.lookup(self.word_lookup,wid)
 
         src_len = [len(x) for x in xs]
         max_src_len = np.max(src_len)

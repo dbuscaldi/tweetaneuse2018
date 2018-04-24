@@ -36,6 +36,7 @@ parser.add_argument("--test-file", type=str, help="test file name")
 parser.add_argument("--test-model", type=str, help="test model name")
 
 parser.add_argument("--use-gpu", dest="gpu", action="store_true")
+parser.add_argument ("--level", type=str, default="HYBRID", help="either WORD, CHAR, HYBRID")
 
 args = parser.parse_args()
 
@@ -64,7 +65,7 @@ trainer = dy.AmsgradTrainer(model)
 
 class deft_t12_nn:
     def __init__(self, model, data):
-        self.hbilstm = Hybrid_BiLSTM(model, data, args.char_emb_size, args.word_emb_size, args.word_hidden_size, 1, 1, args.dropout_rate)
+        self.hbilstm = Hybrid_BiLSTM(model, data, args.char_emb_size, args.word_emb_size, args.word_hidden_size, 1, 1, args.dropout_rate, Level[args.level])
         self.classif = MultiLayerPerceptron(model, [args.word_hidden_size,args.word_emb_size, data.output_size], dy.rectify, args.dropout_rate)
         self.data = data
         self.Qp = model.add_parameters((args.word_hidden_size, args.word_hidden_size))
