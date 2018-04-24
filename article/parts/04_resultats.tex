@@ -1,10 +1,52 @@
 \label{sec:resultats}
 
-Dans la tâche 1, nos
+\subsection{Tâche 1: Classification en "Transport" ou "Inconnu"}
+
+ LCette tâche était relativement facile avec beaucoup de configurations au-delà des 80\% de F-mesure.
+ Nos systèmes se sont bien comportés et le le BiLSTM a même obtenu la première place. Les résultats officiels figurent dans le tableau \ref{tab:resultats_T1}.
 
 \input{parts/tab_resultats_T1}
+Assez logiquement au vu de la facilité de la tâche, nos trois systèmes ont souvent été en accord complet (71,9\% des cas précisément).
+Le système de vote n'a pas fonctionné aussi bien que nous l'aurions souhaité car nous n'avons pas pu détecter de réelle complémentarité entre les systèmes.
+ Les systèmes 1 et 3 ont rarement eu raison "contre" le Bi-LSTM (40 cas soit seulement 0,5\% des cas). 
+ Dans 320 cas (soit 4,1\%), il y a eu uniquement un de nos systèmes qui a été correct.
+Enfin, dans 1049 cas (soit 13,41\%), aucun de nos systèmes n'avait trouvé la bonne étiquette. A 93 reprises pour la catégorie transports, ce qui est assez attendu puisque la classe "INCONNU" s'était avérée la plus difficile à détecter dans la phase d'entraînement.
+
+Derrière ces erreurs nous pouvons les difficultés inhérentes à un tâche d'annotation même binaire. Toutefois, nous avons pu voir des tweets dont la classification était vraiment étonnante.
+
+Exemples étiquetés dans la catégorie "transport" mais classés "inconnu" par nos 3 systèmes:
+\begin{itemize}
+\item Remember à la \#CDM2014 quand un tracteur est passé dans toutes les rues de Berche pour nous récupérer et chanter la Marseillaise
+ \item Malheureusement pour la \#fra ce soir les Marines US ne débarqueront pas par la mer pour la libérer contre la \#ger ...\#EURO2016
+ \item Je finis à 17h et je sais pas si la limite pour récupérer un colis le jour-même c' est pas 17h. Ce qui serait fort embêtant donc 
+ \item @scanlan75018 depuis qu' il a eu le coup il n' arrive plus à accélérer mais comme c' est une finale il à essayer de forcer
+\end{itemize}
+
+Exemples étiquetés dans la catégorie "inconnu" mais classés "transport" par nos 3 systèmes:
+\begin{itemize}
+\item La prochaine fois que la SNCF me met dans le sens inverse de la marche alors qu' il reste plein de places dans le train je vomis partout.
+\item @LIGNEJ\_SNCF \#ligne Merci au conducteur qui vient de partir de houilles de m'avoir attendu 
+\item Tu pars bcp plus tard le matin et bcp plus tôt le soir. Ben ça change rien c' est l' horreur sur la @Ligne1\_RATP Super mois d' août à la \#ratp
+\item \#duflot2017  veut rouler en bus au poireau bio?  enfin la politique me fait rire ! ! Celui de son mec ne l' est pas ? ? MDR
+\item En même temps , y' a qu' un bus pour toute la journée , il n' allait quand même pas passer
+\end{itemize}
+
+ En analysant quelque peu ces tweets pour lesquels aucun de nos systèmes n'a trouvé la bonne classe, nous avons pu voir quelques cas intéressants.
+ Les tweets mêlant bus et football contenaient souvent une référence que nos systèmes n'avaient pas pu modéliser: "mettre le bus" dans le sens de se ruer en défense et "rester dans le bus" en référence au bus de Knysna lors de la Coupe du Monde 2010.
+ Un autre cas est le tweet ou il n'est pas réellement question de transports mais où le transport sert au mieux de toile de fond. Il s'agit par exemple de cas où le twittos indique explicitement qu'il se situe dans les transports sans que cela ait aucun lien avec ce dont il est train de parler. En voici quelques exemples :
+
+\begin{itemize}
+\item c pas je marchais sereine pour aller prendre mon bus et je remarque y' a un bouton de ma chemise ouvert , dévoilant tt mon soutif
+\item à l' arrêt de bus g vu mon prof de philo j' étais pas sereine
+\item Jsuis encore à l' arrêt de bus et je pense à ce qui m' attend ce soir niveau révisions ptdr go mourir ===>
+\item Hier dans le métro j' ai vu un mec il avait des mains! ! s' il te donne une gifle t' es mal...
+\end{itemize}
+
+\subsection{Classification en terme de polarité}
 
 
+ Dans le tableau \ref{tab:resultats_T2} sont recensés nos résultats avec les métriques officielles.
+ Une fois encore, le modèle Bi-LSTM s'est avéré le plus compétitif (troisième place sur cette tâche)
 Dans la tâche 2, l'écart entre nos système s'est creusé.
 1033 accords complets
 1391 2 systèmes ont la bonne réponse et influencent en conséquence le système de vote

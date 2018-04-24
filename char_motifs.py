@@ -93,7 +93,7 @@ class DataBase():
   def get_classifiers(self):
     liste_classif=[
 #     ["OneVsRest-Linear", OneVsRestClassifier(LinearSVC(random_state=0))],
-#     ["OneVsRest-Poly", OneVsRestClassifier(SVC(kernel="poly"))],
+     ["OneVsRest-Poly", OneVsRestClassifier(SVC(kernel="poly"))],
      ["OneVsRest-Rbf", OneVsRestClassifier(SVC(kernel="rbf"))],
 #     ["Tree-DecisionTree",  tree.DecisionTreeClassifier()],
 #       ["Random_forest_25",  RandomForestClassifier(n_estimators=25)],

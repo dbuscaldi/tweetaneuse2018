@@ -42,16 +42,19 @@ def compute_results(dic):
     all_F.append(F1)
     print "  '%s'"%classe[:10]+"\t"+"\t".join([str(round(x,4)) for x in [P,R, F1]])+"\t",
     print "\t".join([str(scores[x]) for x in ["VP", "FP",  "FN"]])
-  print "  Accuracy:", round(acc_data[0]/acc_data[1], 4)
+  if acc_data[0]>0:
+    accuracy = round(acc_data[0]/acc_data[1], 4)
+  else:
+    accuracy = 0
+  print "  Accuracy:", accuracy, 
   print "  Macro F1:", round(moyenne(all_F), 4)
-  print out
+#  print out
 
 def get_scores(ref, pred):
   classes_names = set(ref.values())
-  print classes_names
   d_classes = init_data_struct(classes_names)
   missing = []
-  print len(pred), " predictions pour", len(ref), "references"
+#  print len(pred), " predictions pour", len(ref), "references"
   for ID, classe in ref.iteritems():
     if ID not in pred:
       missing.append(ID)
@@ -75,7 +78,6 @@ liste_results = glob.glob(sys.argv[2]+"*")
 ref = parse_file(sys.argv[1])
 
 for result_file in liste_results:
-  print "\n Processing %s"%result_file
+  print " Processing %s"%result_file
   pred = parse_file(result_file)
   scores = get_scores(ref, pred)
-  print ""
