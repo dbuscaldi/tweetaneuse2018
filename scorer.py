@@ -1,3 +1,4 @@
+#coding:utf-8
 import sys
 sys.path.append("rstr_max")
 from tools import * 
@@ -25,7 +26,7 @@ def compute_results(dic):
   all_F = []
   acc_data = [0, 0]
   out =""
-  print "  CLASSE\tR\tP\tF1"
+  print "  CLASSE\tPrécision\tRappel\tF-mesure\tVP\tFP\tFN"
   for classe, scores in dic .iteritems():
     VP = float(scores["VP"])
     FP = scores["FP"]
@@ -39,9 +40,10 @@ def compute_results(dic):
     acc_data[0]+=VP
     acc_data[1]+=FP+VP
     all_F.append(F1)
-    print "  '%s'"%classe[:10]+"\t"+"\t".join([str(round(x,2)) for x in [R, P, F1]])
-  print "  Accuracy:", round(acc_data[0]/acc_data[1], 2)
-  print "  Macro F1:", round(moyenne(all_F), 2)
+    print "  '%s'"%classe[:10]+"\t"+"\t".join([str(round(x,4)) for x in [P,R, F1]])+"\t",
+    print "\t".join([str(scores[x]) for x in ["VP", "FP",  "FN"]])
+  print "  Accuracy:", round(acc_data[0]/acc_data[1], 4)
+  print "  Macro F1:", round(moyenne(all_F), 4)
   print out
 
 def get_scores(ref, pred):
