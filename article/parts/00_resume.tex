@@ -1,7 +1,8 @@
 
  Dans cet article, nous présentons notre contribution au Défi Fouille de Textes 2018 au travers de trois méthodes originales pour la classification thématique et la détection de polarité dans des \textit{tweets} en français. Nous y avons ajouté un système de vote.
- Notre première méthode est fondée sur des lexiques (mots et emojis) et un classificateur à vaste marge
- tandis que les deux autres sont des méthodes endogènes fondées sur l'extraction de caractéristiques au grain caractères~: un modèle à mémoire à court-terme persistante (ou \textit{Bi-LSTM} pour \textit{Bidirectionnal Long Short-Term Memory}) et perceptron multi-couche d'une part et un modèle de séquences de caractères fermées fréquentes et classificateur à large marge (ou \textit{SVM}) d'autre part.
+ Notre première méthode est fondée sur des lexiques (mots et emojis),
+ les n-grammes de caractères et un classificateur à vaste marge (ou \textit{SVM}).
+ tandis que les deux autres sont des méthodes endogènes fondées sur l'extraction de caractéristiques au grain caractères~: un modèle à mémoire à court-terme persistante (ou \textit{Bi-LSTM} pour \textit{Bidirectionnal Long Short-Term Memory}) et perceptron multi-couche d'une part et un modèle de séquences de caractères fermées fréquentes et classificateur \textit{SVM} d'autre part.
  Le \textit{Bi-LSTM} a produit de loin les meilleurs résultats puisqu'il a obtenu la première place sur la tâche 1, classification binaire de \textit{tweets} selon qu'ils traitent ou non des transports, et la troisième place sur la tâche 2, classification de la polarité en 4 classes.
  Ce résultat est d'autant plus intéressant que la méthode proposée est faiblement paramétrique, totalement endogène et qu'elle n'implique aucun pré-traitement.
 

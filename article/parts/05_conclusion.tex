@@ -1,8 +1,16 @@
 \label{sec:conclusion}
- Dans cet article, nous avons présenté trois méthodes exploitant le grain caractère pour la classification de tweets et la détection de polarité. Ces trois méthodes utilisent de l'apprentissage supervisé.
- La première méthode combine des lexiques et des n-grammes de caractères, la seconde exploite un Bi-LSTM tandis que la troisième utilise des motifs en caractères fermés fréquents.
+Dans cet article, nous avons présenté trois méthodes exploitant le grain caractère pour la classification de tweets et la détection de polarité.
+Ces trois méthodes utilisent de l'apprentissage supervisé.
+La première méthode combine ressources exogènes, des lexiques, et n-grammes de caractères, la seconde exploite un Bi-LSTM tandis que la troisième utilise des motifs en caractères fermés fréquents.
 
- Les bons résultats obtenus, en particulier pour le Bi-LSTM montrent que l'utilisation du grain caractère pour les tâches de TAL est amenée à avoir un impact important.
- En effet, les méthodes en caractère sont l'avantage de bien se comporter dans des contextes bruités, ce qui est le cas ici puisque les variations de graphie et la distanciation avec les normes syntaxiques sont des caractéristiques majeures des tweets. 
-Par ailleurs, ces approches permettent de se passer de pré-traitement ce qui permet de simpligier les chaînes de traitement et par conséquent de réduire les erreurs en cascade\cite{Lejeune-2014}.
+Les bons résultats obtenus, en particulier pour le Bi-LSTM montrent que l'utilisation du grain caractère pour les tâches de TAL est amenée à avoir un impact important.
+En effet, les méthodes en caractère ont l'avantage de bien se comporter dans des contextes bruités, ce qui est le cas ici puisque les variations de graphie et la distanciation avec les normes syntaxiques sont des caractéristiques majeures des tweets.
+Par ailleurs, ces approches permettent de se passer de pré-traitement ce qui permet de simplifier les chaînes de traitement et par conséquent de réduire les erreurs en cascade\cite{Lejeune-2014}.
 Enfin, ces méthodes permettent de capturer de manière purement endogène des informations sur la structure intra-token (morphèmes) comme sur la structure extra-token (expressions multi-mots par exemple) ce qui peut être particulièrement intéressant dans un contexte impliquant plusieurs langues ou des langues peu dotées en ressources.
+Nos prototypes sont disponibles en ligne\footnote{\url{https://github.com/rcln/tweetaneuse2018}} et librement utilisables.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../tweetaneuse"
+%%% End:
