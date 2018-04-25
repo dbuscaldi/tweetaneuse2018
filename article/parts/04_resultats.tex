@@ -46,15 +46,15 @@ Exemples étiquetés dans la catégorie "inconnu" mais classés "transport" par 
 
 
  Dans le tableau \ref{tab:resultats_T2} sont recensés nos résultats avec les métriques officielles.
- Une fois encore, le modèle Bi-LSTM s'est avéré le plus compétitif (troisième place sur cette tâche)
-Dans la tâche 2, l'écart entre nos système s'est creusé.
-1033 accords complets
-1391 2 systèmes ont la bonne réponse et influencent en conséquence le système de vote
-Dans 39 cas le système de vote a résolu une indécision avec une étiquette MIXPOSNEG à raison
-
+ Une fois encore, le modèle Bi-LSTM s'est avéré le plus compétitif (troisième place sur cette tâche).
+Dans cette tâche, le différentiel entre nos système s'est creusé et nous avions un triple accord dans seulement 1033 cas (soit 26,2\% des cas). Dans 1391 cas (35,3\%) deux des systèmes ont fourni la bonne réponse, influent positivement les résultats du système de vote.
 \input{parts/tab_resultats_T2}
+ 
+%Dans 39 cas le système de vote a résolu une indécision avec une étiquette MIXPOSNEG à raison
 
 
 \input{parts/tab_resultats_T2_par-classe}
 Nous présentons dans les tableaux \ref{tab:detail1} à \ref{tab:detail4} les résultats par classe pour chacune de nos méthodes.
- Nous indiquons également la macro F-mesure qui permet notamment de mettre en lumière les configurations qui s'accommodent mieux de la classe minoritaire MIXPOSNEG.
+ Nous indiquons également la macro F-mesure qui permet de mettre un peu en lumière les configurations qui s'accommodent le mieux de la classe minoritaire MIXPOSNEG.
+ Nous pouvons observer que le Bi-LSTM a fait la différence sur toutes les classes
+ Il s'est aussi mieux comporté que les autres dans la détection des tweets de la classe "MIXPOSNEG".

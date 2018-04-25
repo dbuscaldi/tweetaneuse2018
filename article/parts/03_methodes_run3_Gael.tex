@@ -36,8 +36,12 @@ Nous avons également remarqué, ce qui est conforme à des résultats précéde
 
  Les résultats que nous avons soumis pour la phase de test ont été obtenus avec les configurations suivantes :
 \begin{itemize}
-  \item Motifs de taille 1 à 2 pour la tâche 1 et de taille 1 à 3 pour la tâche 2
+  \item Pas de taille minimale ($minlen=1$)
+  \item Pour la tâche 1 $maxlen=2$ et pour la tâche 2 $maxlen=3$
   \item Pas de contrainte de support
   \item Utilisation d'un noyau linéaire
 \end{itemize}
 
+ La configuration ci-dessus s'est avérée la plus efficace sur les données d'entraînement et la plus fiable pour effectuer les calculs dans le temps imparti. L'utilisation d'un noyau radial permettait toutefois d'obtenir de bons résultats y compris en se contentant de smotifs de taille 1 ($maxlen=1$).
+
+ 
