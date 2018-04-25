@@ -14,13 +14,13 @@ Dans 320 cas (soit 4,1\%), il y a eu uniquement un de nos systèmes qui a été 
 Enfin, dans 1049 cas (soit 13,41\%), aucun de nos systèmes n'avait trouvé la bonne étiquette, dont 93 reprises pour la catégorie transports, ce qui est assez attendu puisque la classe \emph{Inconnu} s'était avérée la plus difficile à détecter dans la phase d'entraînement.
 
 Derrière ces erreurs nous pouvons les difficultés inhérentes à un tâche d'annotation même binaire.
-Toutefois, nous avons pu voir des tweets dont la classification était vraiment étonnante.
+Toutefois, nous avons pu voir des \textit{tweets} dont la classification était vraiment étonnante.
 
 Quelques exemples étiquetés dans la catégorie \emph{Transport} mais classés \emph{Inconnu} par nos 3 systèmes~:
 \begin{itemize}
 \item \texttt{Remember à la \#CDM2014 quand un tracteur est passé dans toutes les rues de Berche pour nous récupérer et chanter la Marseillaise}
  \item \texttt{Malheureusement pour la \#fra ce soir les Marines US ne débarqueront pas par la mer pour la libérer contre la \#ger ...\#EURO2016}
- \item \texttt{Je finis à 17h et je sais pas si la limite pour récupérer un colis le jour-même c' est pas 17h. Ce qui serait fort embêtant donc}
+% \item \texttt{Je finis à 17h et je sais pas si la limite pour récupérer un colis le jour-même c' est pas 17h. Ce qui serait fort embêtant donc}
  \item \texttt{@scanlan75018 depuis qu' il a eu le coup il n' arrive plus à accélérer mais comme c' est une finale il à essayer de forcer}
 \end{itemize}
 
@@ -29,13 +29,13 @@ Quelques exemples étiquetés dans la catégorie \emph{Inconnu} mais classés \e
 \item \texttt{La prochaine fois que la SNCF me met dans le sens inverse de la marche alors qu' il reste plein de places dans le train je vomis partout.}
 \item \texttt{@LIGNEJ\_SNCF \#ligne Merci au conducteur qui vient de partir de houilles de m'avoir attendu}
 \item \texttt{Tu pars bcp plus tard le matin et bcp plus tôt le soir. Ben ça change rien c' est l' horreur sur la @Ligne1\_RATP Super mois d' août à la \#ratp}
-\item \texttt{\#duflot2017  veut rouler en bus au poireau bio?  enfin la politique me fait rire ! ! Celui de son mec ne l' est pas ? ? MDR}
+\item \texttt{\#duflot2017 veut rouler en bus au poireau bio? enfin la politique me fait rire!! Celui de son mec ne l'est pas ?? MDR}
 \item \texttt{En même temps , y' a qu' un bus pour toute la journée , il n' allait quand même pas passer}
 \end{itemize}
 
-En analysant brièvement les tweets pour lesquels aucun de nos systèmes n'a trouvé la bonne classe, nous avons pu voir quelques cas intéressants.
-Les tweets mêlant bus et football contenaient souvent une référence que nos systèmes n'avaient pas pu modéliser~: \emph{mettre le bus} dans le sens de se ruer en défense et \emph{rester dans le bus} en référence au bus de Knysna lors de la Coupe du Monde 2010.
-Un autre cas est le tweet ou il n'est pas réellement question de transports mais où le transport sert au mieux de toile de fond.
+En analysant brièvement les \textit{tweets} pour lesquels aucun de nos systèmes n'a trouvé la bonne classe, nous avons pu voir quelques cas intéressants.
+Les \textit{tweets} mêlant bus et football contenaient souvent une référence que nos systèmes n'avaient pas pu modéliser~: \emph{mettre le bus} dans le sens de se ruer en défense et \emph{rester dans le bus} en référence au bus de Knysna lors de la Coupe du Monde 2010.
+Un autre cas est le \textit{tweet} ou il n'est pas réellement question de transports mais où le transport sert au mieux de toile de fond.
 Il s'agit par exemple de cas où le twittos indique explicitement qu'il se situe dans les transports sans que cela ait aucun lien avec ce dont il est train de parler. En voici quelques exemples~:
 
 \begin{itemize}
@@ -51,19 +51,36 @@ Il s'agit par exemple de cas où le twittos indique explicitement qu'il se situe
 Dans le tableau~\ref{tab:resultats_T2} sont recensés nos résultats avec les métriques officielles.
 Une fois encore, le modèle B-LSTM s'est avéré le plus compétitif avec une troisième place sur cette tâche.
 Dans cette tâche, le différentiel entre nos système s'est creusé et nous avions un triple accord dans seulement 1033 cas (soit 26,2\% des cas). Dans 1391 cas (35,3\%) deux des systèmes ont fourni la bonne réponse, influent positivement les résultats du système de vote.
+ Enfin, pour 622 \textit{tweets} (15,78\%) aucun de nos systèmes n'a trouvé la bonne classe.
 \input{parts/tab_resultats_T2}
 
 %Dans 39 cas le système de vote a résolu une indécision avec une étiquette MIXPOSNEG à raison
 
-
-
-Nous présentons dans les tableaux~\ref{tab:detail1} à~\ref{tab:detail4} les résultats par classe pour chacune de nos méthodes.
+Nous présentons dans le tableau~\ref{tab:detail1} les résultats par classe pour chacune de nos méthodes.
 Nous indiquons également la macro F-mesure qui permet de mettre un peu en lumière les configurations qui s'accommodent le mieux de la classe minoritaire \emph{MIXPOSNEG}.
 Cette classe s'est révélée très difficile à prédire en plus de son faible effectif du fait de sa définition forcément plus imprécise.
 Nous pouvons observer que le Bi-LSTM a fait la différence sur toutes les classes.
-Il s'est aussi mieux comporté que les autres dans la détection des tweets de la classe \emph{MIXPOSNEG}.
+Il s'est aussi mieux comporté que les autres dans la détection des \textit{tweets} de la classe \emph{MIXPOSNEG}.
+
 
 \input{parts/tab_resultats_T2_par-classe}
+ Parmi les erreurs que nos systèmes ont commis, nous avons extrait quelques exemples pour lesquelles la prédiction n'était pas évidente. 
+
+Voici une première série de \textit{tweets} pour lesquels nos 3 systèmes ont prédit \emph{NEGATIF} mais où l'annotation était \emph{MIXPOSNEG} :
+\begin{itemize}
+\item \texttt{RT @allenlafrance : \#PLC veulent se débarrasser des Postes,on va leur suggérer faire de même avec RC,CBC. et gérer les affaires du Pays. htt\dots}
+\item \texttt{- Le contrôleur lui dit que ça doit être un pb de date et le mec sûr de lui sort\\' Ah c' est pas de ma faute\\' , il sort donc son billet et dit-}
+\item \texttt{La \#SNCF a vraiment un des pire service clients que je connaisse ! C est boite est une honte vivement la concurrence}
+\end{itemize}
+
+Quelques exemples de \textit{tweets} pour lesquels nos 3 systèmes ont prédit \emph{POSITIF} mais où l'annotation était \emph{MIXPOSNEG}:
+\begin{itemize}
+\item \texttt{jsuis morte laura elle est descendu de son bus juste pour me dire bonjour à arrêt et remonter mdrrrrr}
+\item \texttt{@J\_Lutecia @Virginiement Yep alors par contre j' ai cette contrainte de dernier bus qui fait que ça serait cool si on pouvait faire ça tot :3}
+\item \texttt{les gens ils pensent jsuis l' genre à courir après pour les capter PTDRRRR archi drôle , déjà que j' cours pas après mon bus alors vous nvm}
+\end{itemize}
+
+
 
 
 %%% Local Variables:

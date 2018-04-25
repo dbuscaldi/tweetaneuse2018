@@ -13,7 +13,7 @@ La classification se fait en trois temps~:
   LSTM_{m'}(l_{i+1},c(s_{i}) + e(s_{i}))$, où $c$ est la représentation compositionnelle donnée ci-dessus et $e$ la fonction de plongement que l'on étend aux segments vus dans l'ensemble d'entraînement.
   Les états finaux obtenues après lecture dans les deux directions sont sommés et servent de représentation de la phrase d'entrée, $r(p) = l_{n} + l'_{1}$.
 
-\item La représentation obtenue sert d'entrée à un perceptron multi-niveau qui effectue la classification finale, aussi bien pour la tâche 1 que pour la tâche 2:  $o(p) = \sigma(O \times \max(0, (W \times r(p) + b)))$ où $\sigma$ est l'opérateur \emph{softmax}, $W$, $O$ des matrices et $b$ un vecteur. On interprète la sortie comme une distribution de probabilité sur les classes de tweets.
+\item La représentation obtenue sert d'entrée à un perceptron multi-niveau qui effectue la classification finale, aussi bien pour la tâche 1 que pour la tâche 2:  $o(p) = \sigma(O \times \max(0, (W \times r(p) + b)))$ où $\sigma$ est l'opérateur \emph{softmax}, $W$, $O$ des matrices et $b$ un vecteur. On interprète la sortie comme une distribution de probabilité sur les classes de \textit{tweets}.
 \end{enumerate}
 
 Cette interprétation probabiliste nous permet de réduire l'apprentissage des paramètres du système à la maximisation de la vraisemblance du corpus d'entraînement.

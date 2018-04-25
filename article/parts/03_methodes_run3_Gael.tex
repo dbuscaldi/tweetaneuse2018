@@ -1,6 +1,6 @@
 Notre troisième système utilise également une approche d'analyse au grain caractère.
 Plus exactement cette approche se situe à la lisière entre l'algorithmique du texte et la fouille de données.
-Nous utilisons des motifs (en caractères) fermés et fréquents comme traits pour entraîner un classifieur.
+Nous utilisons des motifs (en caractères) fermés et fréquents comme traits pour entraîner un classificateur.
 
 Les propriétés de fermeture et de fréquence sont définis de la façon suivante :%\footnote{Il s'agit d'une transposition de \textit{frequency}, il s'agit donc d'effectif}
 \begin{description}
@@ -10,23 +10,23 @@ Les propriétés de fermeture et de fréquence sont définis de la façon suivan
 
 Pour calculer des motifs en caractères de manière efficace, en l'occurrence avec une complexité linéaire en la taille des données, nous utilisons ici une implantation en Python de l'algorithme décrit dans~\cite{Ukkonen-2009} exploitant les tableaux de suffixes augmentés décrits dans~\cite{Karkka-2006}.
 \cite{Buscaldi-2017} rappellent que les propriétés de fermeture et de fréquence correspondent en algorithmique du texte aux propriétés de maximalité et de répétition.
-Cette technique peut être décrite comme une segmentation \emph{non-supervisée} en ce sens que les règles de découpage ne sont pas pré-définies mais sont calculées en fonction du corpus donné en entrée. %  Les motifs d'effectif 1 ne sont pas exploités
+Du point de vue du TAL, cette technique peut être décrite comme une segmentation \emph{non-supervisée} en ce sens que les règles de découpage ne sont pas pré-définies mais sont calculées en fonction du corpus donné en entrée. %  Les motifs d'effectif 1 ne sont pas exploités
 
 De façon traditionnelle en fouille de données, un défi important est de limiter l'explosion du nombre de motifs, que ce soit pour des raisons calculatoires ou pour des raisons de lisibilité des résultats.% En effet, nous pouvons voir dans le tableau \ref{tab:nbMotifs} que le nombre de motifs peut être très important.
 Un filtrage classique consiste à appliquer aux motifs deux types de contrainte:
 \begin{itemize}
 \item La contrainte de support par laquelle on définit le nombre minimal ($minsup$) et maximal ($maxsup$) d'objets qui supportent un motif.
-  Ici cela consiste à définir le nombre minimal et maximal de tweets dans lequel le motif apparaît.
+  Ici cela consiste à définir le nombre minimal et maximal de \textit{tweets} dans lequel le motif apparaît.
 \item La contrainte de longueur par laquelle on définit la longueur minimale ($minlen$) et maximale ($maxlen$) d'un motif.
   Ici, il s'agit d'une longueur en caractères.
 \end{itemize}
 
 Notre chaîne de traitement est définie comme suit:
 \begin{enumerate}
-  \item Calcul des motifs fermés fréquents dans tout le corpus de tweets (train+test);
+  \item Calcul des motifs fermés fréquents dans tout le corpus de \textit{tweets} (train+test);
   \item Filtrage des motifs selon la longueur;
   \item Filtrage des motifs selon le support;
-  \item Représentation de chaque tweet sous forme d'un vecteur d'effectif des motifs;
+  \item Représentation de chaque \textit{tweet} sous forme d'un vecteur d'effectif des motifs;
   \item Utilisation de l'implantation de \textsc{SciKit} du SVM \textsc{One vs Rest}.
 \end{enumerate}
 
