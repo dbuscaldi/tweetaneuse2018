@@ -49,7 +49,7 @@ Il s'agit par exemple de cas où le twittos indique explicitement qu'il se situe
 
 
 Dans le tableau~\ref{tab:resultats_T2} sont recensés nos résultats avec les métriques officielles.
-Une fois encore, le modèle B-LSTM s'est avéré le plus compétitif avec une troisième place sur cette tâche.
+Une fois encore, le modèle BiLSTM s'est avéré le plus compétitif avec une troisième place sur cette tâche.
 Dans cette tâche, le différentiel entre nos système s'est creusé et nous avions un triple accord dans seulement 1033 cas (soit 26,2\% des cas). Dans 1391 cas (35,3\%) deux des systèmes ont fourni la bonne réponse, influent positivement les résultats du système de vote.
  Enfin, pour 622 \textit{tweets} (15,78\%) aucun de nos systèmes n'a trouvé la bonne classe.
 \input{parts/tab_resultats_T2}
@@ -59,12 +59,12 @@ Dans cette tâche, le différentiel entre nos système s'est creusé et nous avi
 Nous présentons dans le tableau~\ref{tab:detail1} les résultats par classe pour chacune de nos méthodes.
 Nous indiquons également la macro F-mesure qui permet de mettre un peu en lumière les configurations qui s'accommodent le mieux de la classe minoritaire \emph{MIXPOSNEG}.
 Cette classe s'est révélée très difficile à prédire en plus de son faible effectif du fait de sa définition forcément plus imprécise.
-Nous pouvons observer que le Bi-LSTM a fait la différence sur toutes les classes.
+Nous pouvons observer que le BiLSTM a fait la différence sur toutes les classes.
 Il s'est aussi mieux comporté que les autres dans la détection des \textit{tweets} de la classe \emph{MIXPOSNEG}.
 
 
 \input{parts/tab_resultats_T2_par-classe}
- Parmi les erreurs que nos systèmes ont commis, nous avons extrait quelques exemples pour lesquelles la prédiction n'était pas évidente. 
+ Parmi les erreurs que nos systèmes ont commis, nous avons extrait quelques exemples pour lesquelles la prédiction n'était pas évidente.
 
 Voici une première série de \textit{tweets} pour lesquels nos 3 systèmes ont prédit \emph{NEGATIF} mais où l'annotation était \emph{MIXPOSNEG} :
 \begin{itemize}

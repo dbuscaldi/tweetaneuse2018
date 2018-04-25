@@ -16,7 +16,7 @@ La classification se fait en trois temps~:
 \item La représentation obtenue sert d'entrée à un perceptron multi-niveau qui effectue la classification finale, aussi bien pour la tâche 1 que pour la tâche 2:  $o(p) = \sigma(O \times \max(0, (W \times r(p) + b)))$ où $\sigma$ est l'opérateur \emph{softmax}, $W$, $O$ des matrices et $b$ un vecteur. On interprète la sortie comme une distribution de probabilité sur les classes de \textit{tweets}.
 \end{enumerate}
 
-Cette interprétation probabiliste nous permet de réduire l'apprentissage des paramètres du système à la maximisation de la vraisemblance du corpus d'entraînement.
+Cette interprétation probabiliste nous permet de réduire l'apprentissage des paramètres du système (\emph{ie.} les plongements de caractères et de segments fréquents, $O,W,b$, ainsi que les paramètres des 4 cellules LSTM) à la maximisation de la vraisemblance du corpus d'entraînement.
 On utilise l'algorithme AMSgrad~\cite{reddi2018on} pour  calculer la taille du pas lors de la descente de gradient.
 Pour éviter le sur-apprentissage, nous  procédons aux deux ajustements suivants.
 \begin{itemize}
