@@ -51,15 +51,12 @@ from networks import Hybrid_BiLSTM, MultiLayerPerceptron
 
 # format of files: each line is "ID"\t"string"
 import os
-"""dirname = os.path.dirname(__file__)
-train_file = os.path.join(dirname, "data/id_tweets")
-train_categories = os.path.join(dirname, "data/T2_cat_tweets" if args.task2 else "data/T1_cat_tweets")
-"""
-dirname = "/home/dbuscaldi/Works/EVALITA2018/AMI/"
+#dirname = os.path.dirname(__file__)
+dirname = os.path.dirname(__file__) #"/home/dbuscaldi/Works/EVALITA2018/AMI/"
 if args.lang=="it":
-    train_file = os.path.join(dirname, "it_training.tsv")
+    train_file = os.path.join(dirname, "data/it_training.tsv")
 else:
-    train_file = os.path.join(dirname, "en_training.tsv")
+    train_file = os.path.join(dirname, "data/en_training.tsv")
 # DyNet Starts
 model = dy.Model()
 trainer = dy.AmsgradTrainer(model)
