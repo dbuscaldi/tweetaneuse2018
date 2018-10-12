@@ -1,0 +1,17 @@
+Risultati con il modello Tweetaneuse2.0 su taskA:
+0.821 IT
+0.626 EN
+
+0.7569 in dev (split 90%/10%) per EN
+0.8719 in dev per IT
+
+
+################ modello Random RandomForestClassifier
+
+0.82 in dev per EN (split 80/20)
+0.89 in dev per IT
+
+################ modello nu-NuSVC
+
+0.78 in dev per EN (80/20)
+0.84 in dev per IT
