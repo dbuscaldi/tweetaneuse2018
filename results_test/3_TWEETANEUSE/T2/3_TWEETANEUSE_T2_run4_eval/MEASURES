@@ -1,6 +1,0 @@
-true positive = 2473
-false_positive = 1467
-false_negative = 1
-(micro-mean) precision = 0.62766 = 2473 / 3940
-(micro-mean) recall = 0.9996 = 2473 / 2474
-(micro-mean) F1-measure = 0.77113 = (2 * (2473/3940) * (2473/2474)) / ((2473/3940) + (2473/2474))
